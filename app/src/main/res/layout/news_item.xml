@@ -13,11 +13,12 @@
         <ImageView
             android:id="@+id/ivThumbnail"
             android:layout_width="0dp"
-            android:layout_height="194dp"
+            android:layout_height="160dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
+            tools:srcCompat="@tools:sample/avatars"
+            android:contentDescription="News image."/>
 
         <TextView
             android:id="@+id/tvTitle"
@@ -66,7 +67,8 @@
             app:layout_constraintEnd_toStartOf="@+id/ivShare"
             app:layout_constraintTop_toTopOf="@+id/btOpenLink"
             app:layout_constraintVertical_bias="0.541"
-            app:srcCompat="@drawable/ic_favorite" />
+            app:srcCompat="@drawable/ic_favorite"
+            android:contentDescription="Favorite icon." />
 
         <ImageView
             android:id="@+id/ivShare"
@@ -76,7 +78,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/btOpenLink"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/btOpenLink"
-            app:srcCompat="@drawable/ic_share" />
+            app:srcCompat="@drawable/ic_share"
+            android:contentDescription="Share icon." />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
