@@ -11,16 +11,22 @@ import meu.teste.soccernews.domain.News;
 
 public class NewsViewModel extends ViewModel {
 
-    private final MutableLiveData<List<News>> news;
+    private final MutableLiveData<List<News>> news; // Se trocar news por mNews pode retirar os this
 
     public NewsViewModel() {
-        news = new MutableLiveData<>();
+        this.news = new MutableLiveData<>();
 
         List<News> news = new ArrayList<>();
+        news.add(new News("Gol Gol Gol", "Ab"));
+        news.add(new News("Mais Gol", "Abc"));
+        news.add(new News("Outro Gol", "Abcd"));
+        news.add(new News("Mais Um (Gol)", "A"));
+
+        this.news.setValue(news);
 
     }
 
     public LiveData<List<News>> getNews() {
-        return news;
+        return this.news;
     }
 }
