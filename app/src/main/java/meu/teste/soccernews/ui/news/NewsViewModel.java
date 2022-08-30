@@ -7,23 +7,23 @@ import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import meu.teste.soccernews.data.remote.SoccerNewsApi;
 import meu.teste.soccernews.domain.News;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NewsViewModel extends ViewModel {
 
-    private final MutableLiveData<List<News>> news; // Se trocar news por mNews pode retirar os this
+    private final MutableLiveData<List<News>> news = new MutableLiveData<>();
+    private final SoccerNewsApi api; // Declara a inteface SoccerNewsApi à variável api
 
     public NewsViewModel() {
-        this.news = new MutableLiveData<>();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://ebditore.github.io/soccer_news_api/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-        List<News> news = new ArrayList<>();
-        news.add(new News("Gol Gol Gol", "Ab"));
-        news.add(new News("Mais Gol", "Abc"));
-        news.add(new News("Outro Gol", "Abcd"));
-        news.add(new News("Mais Um (Gol)", "A"));
-
-        this.news.setValue(news);
-
+        api = retrofit.create(SoccerNewsApi.class);
     }
 
     public LiveData<List<News>> getNews() {
