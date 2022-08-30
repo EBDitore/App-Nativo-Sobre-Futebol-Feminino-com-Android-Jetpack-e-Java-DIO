@@ -11,7 +11,7 @@ import java.util.List;
 import meu.teste.soccernews.databinding.NewsItemBinding;
 import meu.teste.soccernews.domain.News;
 
-class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     private List<News> news;
 
