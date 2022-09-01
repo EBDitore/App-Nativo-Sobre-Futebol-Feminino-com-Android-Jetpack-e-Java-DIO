@@ -19,9 +19,9 @@ import meu.teste.soccernews.domain.News;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     private List<News> news;
-    private View.OnClickListener favoriteListener; // Adiciona o OnClickListener para ativar a função do botão de favoritar
+    private NewsListener favoriteListener; // Adiciona o OnClickListener para ativar a função do botão de favoritar
 
-    public NewsAdapter(List<News> news, View.OnClickListener favoriteListener) { // Adiciona o OnClickListener para ativar a função do botão de favoritar
+    public NewsAdapter(List<News> news, NewsListener favoriteListener) { // Adiciona o OnClickListener para ativar a função do botão de favoritar
         this.news = news;
         this.favoriteListener = favoriteListener;
     }
@@ -37,25 +37,29 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         News news = this.news.get(position);
-        holder.binding.tvTitle.setText(news.getTitle());
-        holder.binding.tvDescription.setText(news.getDescription());
-        Picasso.get().load(news.getImage()).fit().into(holder.binding.ivThumbnail); // Atribui ao imageview a imagem da api
+        // holder.binding.tvTitle.setText(news.getTitle()); // Usava getTilte (do getter and setter) pq a variável era privada
+        holder.binding.tvTitle.setText(news.image);
+        // holder.binding.tvDescription.setText(news.getDescription()); // Usava getTilte (do getter and setter) pq a variável era privada
+        holder.binding.tvDescription.setText(news.description);
+        Picasso.get().load(news.image).fit().into(holder.binding.ivThumbnail); // Atribui ao imageview a imagem da api
 
         holder.binding.btOpenLink.setOnClickListener(view -> { // Abre o link
             String url = "http://www.example.com";
             Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setData(Uri.parse(news.getLink()));
+            i.setData(Uri.parse(news.link));
             holder.itemView.getContext().startActivity(i); // Pega o context para o startActivity
         });
 
         holder.binding.ivShare.setOnClickListener(view -> { // Compartilha o link
             Intent i = new Intent(Intent.ACTION_SEND);
             i.setType("text/plain");
-            i.putExtra(Intent.EXTRA_TEXT, news.getLink());
+            i.putExtra(Intent.EXTRA_TEXT, news.link);
             holder.itemView.getContext().startActivity(Intent.createChooser(i, ""));
         });
 
-        holder.binding.ivFavorite.setOnClickListener(this.favoriteListener); // Salva o clicado no banco de dados (O evento é instanciado pelo fragmento)
+        holder.binding.ivFavorite.setOnClickListener(view -> {
+            this.favoriteListener.click(news);
+        }); // Salva o clicado no banco de dados (O evento é instanciado pelo fragmento)
     }
 
     @Override
@@ -72,4 +76,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             this.binding = binding;
         }
     }
+    public interface NewsListener {
+        void click(News news);
+    }
+
 }

@@ -1,12 +1,16 @@
 package meu.teste.soccernews.ui.news;
 
+import android.app.Application;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.room.Room;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import meu.teste.soccernews.data.local.AppDatabase;
 import meu.teste.soccernews.data.remote.SoccerNewsApi;
 import meu.teste.soccernews.domain.News;
 import retrofit2.Call;
@@ -20,13 +24,18 @@ public class NewsViewModel extends ViewModel {
     private final MutableLiveData<List<News>> news = new MutableLiveData<>();
     private final SoccerNewsApi api; // Declara a inteface SoccerNewsApi à variável api
 
-    public NewsViewModel() {
+
+    public NewsViewModel(Application app) { // Injeta a instacia do aplicativo no ViewModel
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://ebditore.github.io/soccer_news_api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         api = retrofit.create(SoccerNewsApi.class);
+
+//        db = Room.databaseBuilder(app, // Instancia o banco de dados passando a instancia do aplicativo (app)
+//                AppDatabase.class, "soccer-news").build(); // Nome atribuído ao banco de dados = soccer-news
+
         this.findNews();
     }
 
