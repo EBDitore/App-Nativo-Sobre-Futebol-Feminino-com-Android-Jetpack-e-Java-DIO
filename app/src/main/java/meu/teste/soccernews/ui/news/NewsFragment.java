@@ -1,5 +1,6 @@
 package meu.teste.soccernews.ui.news;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.room.Room;
 
+import meu.teste.soccernews.MainActivity;
 import meu.teste.soccernews.data.local.AppDatabase;
 import meu.teste.soccernews.databinding.FragmentNewsBinding;
 import meu.teste.soccernews.ui.adapters.NewsAdapter;
@@ -18,7 +20,6 @@ import meu.teste.soccernews.ui.adapters.NewsAdapter;
 public class NewsFragment extends Fragment {
 
     private FragmentNewsBinding binding;
-    private AppDatabase db; // Declara a inteface AppDatabse à variável db
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         NewsViewModel newsViewModel = new ViewModelProvider(this).get(NewsViewModel.class);
@@ -26,12 +27,13 @@ public class NewsFragment extends Fragment {
         binding = FragmentNewsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        db = Room.databaseBuilder(getContext(), AppDatabase.class, "soccee-news").build(); // Contrói o banco de dados
-
         binding.rvNews.setLayoutManager(new LinearLayoutManager(getContext())); // Atribui ao Recyclerview um linear layout
         newsViewModel.getNews().observe(getViewLifecycleOwner(), news -> {
-            binding.rvNews.setAdapter(new NewsAdapter(news, view -> { // O view é chamado quando o botão ivFavorite de NewsAdapter é clicado
-                db.newsDao().insert(); // Insere os dados no banco de dados chamando a função insert de NewsDao
+            binding.rvNews.setAdapter(new NewsAdapter(news, updatedNews -> { // O view é chamado quando o botão ivFavorite de NewsAdapter é clicado
+                MainActivity activity = (MainActivity) getActivity();
+                if (activity != null) {
+                    activity.getDb().newsDao().insert(updatedNews);
+                }
             })); // Atribui o Adapter ao recyclerview
         });
         return root;

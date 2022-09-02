@@ -25,7 +25,7 @@ public class NewsViewModel extends ViewModel {
     private final SoccerNewsApi api; // Declara a inteface SoccerNewsApi à variável api
 
 
-    public NewsViewModel(Application app) { // Injeta a instacia do aplicativo no ViewModel
+    public NewsViewModel() { // Injeta a instacia do aplicativo no ViewModel
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://ebditore.github.io/soccer_news_api/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -52,6 +52,7 @@ public class NewsViewModel extends ViewModel {
 
             @Override
             public void onFailure(Call<List<News>> call, Throwable t) {
+                t.printStackTrace(); // Imprime um problema
                 // TODO tratar erros
             }
         });

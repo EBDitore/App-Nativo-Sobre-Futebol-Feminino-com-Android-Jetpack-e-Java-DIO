@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey;
 @Entity
 public class News {
     @PrimaryKey
-    private int uid;
+    public int id;
 
 //    @ColumnInfo(name = "first_name") // Exemplo de como mudar o nome do campo no banco de dados
 //    public String firstName;
