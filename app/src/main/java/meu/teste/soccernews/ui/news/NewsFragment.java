@@ -27,7 +27,9 @@ public class NewsFragment extends Fragment {
         binding.rvNews.setLayoutManager(new LinearLayoutManager(getContext())); // Atribui ao Recyclerview um linear layout
         newsViewModel.getNews().observe(getViewLifecycleOwner(), news -> {
             // O view é chamado quando o botão ivFavorite de NewsAdapter é clicado
-            binding.rvNews.setAdapter(new NewsAdapter(news, newsViewModel::saveNews)); // Atribui o Adapter ao recyclerview
+            binding.rvNews.setAdapter(new NewsAdapter(news, favoriteNews -> {
+                newsViewModel.saveNews(favoriteNews).observe(getViewLifecycleOwner(), unused ->  {});
+            })); // Atribui o Adapter ao recyclerview
         });
         return root;
     }

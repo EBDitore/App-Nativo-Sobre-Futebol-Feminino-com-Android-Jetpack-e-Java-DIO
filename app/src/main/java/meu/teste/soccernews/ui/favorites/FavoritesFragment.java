@@ -35,7 +35,7 @@ public class FavoritesFragment extends Fragment {
         favoritesViewModel.loadFavoriteNews().observe(getViewLifecycleOwner(), localNews -> {
             binding.rvNews.setLayoutManager(new LinearLayoutManager(getContext()));
             binding.rvNews.setAdapter(new NewsAdapter(localNews, updateNews -> {
-                favoritesViewModel.saveNews(updateNews);
+                favoritesViewModel.saveNews(updateNews).observe(getViewLifecycleOwner(), unused -> {});
                 loadFavoriteNews();
             }));
         });

@@ -49,8 +49,8 @@ public class NewsViewModel extends ViewModel {
         });
     }
 
-    public void saveNews(News news) {
-        SoccerNewsRepository.getInstance().getLocalDb().newsDao().save(news);
+    public LiveData<Void> saveNews(News news) {
+        return SoccerNewsRepository.getInstance().getLocalDb().newsDao().save(news);
     }
 
     public LiveData<List<News>> getNews() { return this.news; }
