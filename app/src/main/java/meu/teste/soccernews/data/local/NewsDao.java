@@ -14,7 +14,7 @@ import meu.teste.soccernews.domain.News;
 public interface NewsDao { // Uma Dao é uma interface
 
     @Insert(onConflict = OnConflictStrategy.REPLACE) // Insere dados no banco // Se já houver registro do campo no banco de dados vai fazer um replace
-    LiveData<Void> save(News... news);
+    LiveData<Long> save(News... news);
 
     @Query("SELECT * FROM news WHERE favorite = 1") // 1 em SQLite é true // Busca dados no banco
     LiveData<List<News>>  loadFavoriteNews();

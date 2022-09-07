@@ -49,7 +49,7 @@ public class NewsViewModel extends ViewModel {
         });
     }
 
-    public LiveData<Void> saveNews(News news) {
+    public LiveData<Long> saveNews(News news) {
         return SoccerNewsRepository.getInstance().getLocalDb().newsDao().save(news);
     }
 
